@@ -36,31 +36,54 @@
     <div class="stepper">
       <span class="step step-1 is-active">1 de 3 · Datos personales</span> <span class="dot"></span>
       <span class="step step-2">Situación laboral y financiera</span> <span class="dot"></span>
-      <span class="step step-3">Verificación y confirma</span>
+      <span class="step step-3">Verificación y confirmación</span>
     </div>
 
     <!-- STEP 1 -->
     <section id="step1" class="card">
       <div class="grid">
-        <div class="col-6"><label>Nombre completo</label><input id="nombre" required placeholder="Tu nombre"></div>
-        <div class="col-6"><label>Cédula</label><input id="cedula" required placeholder="1-2345-6789"></div>
-        <div class="col-6"><label>Fecha de nacimiento</label><input id="dob" required type="date" max="2007-12-31"></div>
-        <div class="col-6"><label>Teléfono</label><input id="telefono" required type="tel" placeholder="+506 ..."></div>
-        <div class="col-6"><label>Correo electrónico</label><input id="email" required type="email" placeholder="tu@correo.com"></div>
         <div class="col-6">
-          <label>Estado civil (opcional)</label>
-          <select id="estadoCivil"><option value="">Elegí una opción</option><option>Soltero(a)</option><option>Casado(a)</option><option>Unión libre</option><option>Divorciado(a)</option></select>
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" required placeholder="Tu nombre" autocomplete="name">
+        </div>
+        <div class="col-6">
+          <label for="cedula">Cédula</label>
+          <input id="cedula" required placeholder="1-2345-6789" inputmode="numeric" autocomplete="off">
+        </div>
+        <div class="col-6">
+          <label for="dob">Fecha de nacimiento</label>
+          <input id="dob" required type="date" max="2007-12-31" autocomplete="bday">
+        </div>
+        <div class="col-6">
+          <label for="telefono">Teléfono</label>
+          <input id="telefono" required type="tel" placeholder="+506 ..." autocomplete="tel">
+        </div>
+        <div class="col-6">
+          <label for="email">Correo electrónico</label>
+          <input id="email" required type="email" placeholder="tu@correo.com" autocomplete="email">
+        </div>
+        <div class="col-6">
+          <label for="estadoCivil">Estado civil (opcional)</label>
+          <select id="estadoCivil">
+            <option value="">Elegí una opción</option>
+            <option>Soltero(a)</option>
+            <option>Casado(a)</option>
+            <option>Unión libre</option>
+            <option>Divorciado(a)</option>
+          </select>
         </div>
         <div class="col-12">
           <label>Dirección (opcional)</label>
           <div class="grid">
-            <div class="col-4"><input id="provincia" placeholder="Provincia"></div>
-            <div class="col-4"><input id="canton" placeholder="Cantón"></div>
-            <div class="col-4"><input id="distrito" placeholder="Distrito"></div>
+            <div class="col-4"><input id="provincia" placeholder="Provincia" autocomplete="address-level1"></div>
+            <div class="col-4"><input id="canton" placeholder="Cantón" autocomplete="address-level2"></div>
+            <div class="col-4"><input id="distrito" placeholder="Distrito" autocomplete="address-level3"></div>
           </div>
         </div>
       </div>
-      <div class="actions"><button class="btn" id="next1" type="button">Siguiente</button></div>
+      <div class="actions">
+        <button class="btn" id="next1" type="button">Siguiente</button>
+      </div>
     </section>
 
     <!-- STEP 2 -->
@@ -68,7 +91,7 @@
       <div class="grid">
         <!-- Common -->
         <div class="col-6">
-          <label>Tu condición laboral</label>
+          <label for="estatus">Tu condición laboral</label>
           <select id="estatus" required>
             <option value="empleado">Empleado(a)</option>
             <option value="pensionado">Pensionado(a)</option>
@@ -77,19 +100,38 @@
           </select>
         </div>
         <div class="col-6">
-          <label>Ingresos mensuales (aprox.)</label>
-          <input id="ingresos" type="number" min="0" required placeholder="₡">
+          <label for="ingresos">Ingresos mensuales (aprox.)</label>
+          <input id="ingresos" type="number" min="0" required placeholder="₡" inputmode="numeric">
         </div>
 
         <!-- Empleado -->
         <div id="fs-empleado" class="col-12 fieldset">
           <div class="legend">Empleado</div>
           <div class="grid">
-            <div class="col-6"><label>Empleador / Empresa</label><input id="empleador" data-req="empleado" placeholder="Nombre de la empresa"></div>
-            <div class="col-3"><label>Antigüedad (meses)</label><input id="antiguedad" data-req="empleado" type="number" min="0" placeholder="Meses"></div>
-            <div class="col-3"><label>Tipo de contrato</label><select id="tipoContrato" data-req="empleado"><option>Indefinido</option><option>Plazo fijo</option><option>Servicios profesionales</option></select></div>
-            <div class="col-6"><label>Banco donde recibís salario</label><input id="bancoSalario" data-req="empleado" placeholder="Nombre del banco"></div>
-            <div class="col-6"><label>Número de asegurado CCSS (opcional)</label><input id="ccss" placeholder="XXXX-XXXX-XX"></div>
+            <div class="col-6">
+              <label for="empleador">Empleador / Empresa</label>
+              <input id="empleador" data-req="empleado" placeholder="Nombre de la empresa">
+            </div>
+            <div class="col-3">
+              <label for="antiguedad">Antigüedad (meses)</label>
+              <input id="antiguedad" data-req="empleado" type="number" min="0" placeholder="Meses">
+            </div>
+            <div class="col-3">
+              <label for="tipoContrato">Tipo de contrato</label>
+              <select id="tipoContrato" data-req="empleado">
+                <option>Indefinido</option>
+                <option>Plazo fijo</option>
+                <option>Servicios profesionales</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="bancoSalario">Banco donde recibís salario</label>
+              <input id="bancoSalario" data-req="empleado" placeholder="Nombre del banco">
+            </div>
+            <div class="col-6">
+              <label for="ccss">Número de asegurado CCSS (opcional)</label>
+              <input id="ccss" placeholder="XXXX-XXXX-XX">
+            </div>
           </div>
         </div>
 
@@ -97,9 +139,27 @@
         <div id="fs-pensionado" class="col-12 fieldset hidden">
           <div class="legend">Pensionado</div>
           <div class="grid">
-            <div class="col-6"><label>Entidad que paga la pensión</label><select id="entidadPension" data-req="pensionado"><option>CCSS / IVM</option><option>JUPEMA / Magisterio</option><option>Operadora ROP</option><option>JPS u otra</option></select></div>
-            <div class="col-3"><label>Tipo de pensión</label><select id="tipoPension" data-req="pensionado"><option>Vejez</option><option>Invalidez</option><option>Sobrevivencia</option></select></div>
-            <div class="col-3"><label>Banco de depósito</label><input id="bancoPension" data-req="pensionado" placeholder="Banco"></div>
+            <div class="col-6">
+              <label for="entidadPension">Entidad que paga la pensión</label>
+              <select id="entidadPension" data-req="pensionado">
+                <option>CCSS / IVM</option>
+                <option>JUPEMA / Magisterio</option>
+                <option>Operadora ROP</option>
+                <option>JPS u otra</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <label for="tipoPension">Tipo de pensión</label>
+              <select id="tipoPension" data-req="pensionado">
+                <option>Vejez</option>
+                <option>Invalidez</option>
+                <option>Sobrevivencia</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <label for="bancoPension">Banco de depósito</label>
+              <input id="bancoPension" data-req="pensionado" placeholder="Banco">
+            </div>
           </div>
         </div>
 
@@ -107,11 +167,29 @@
         <div id="fs-independiente" class="col-12 fieldset hidden">
           <div class="legend">Trabajador independiente</div>
           <div class="grid">
-            <div class="col-6"><label>Actividad económica</label><input id="actividad" data-req="independiente" placeholder="Ej. consultoría, comercio, etc."></div>
-            <div class="col-3"><label>Régimen tributario</label><select id="regimen" data-req="independiente"><option>Simplificado</option><option>Tradicional</option></select></div>
-            <div class="col-3"><label>Tiempo en la actividad (meses)</label><input id="tiempoActividad" data-req="independiente" type="number" min="0"></div>
-            <div class="col-6"><label>Número de contribuyente (NITE / cédula)</label><input id="nitenum" data-req="independiente" placeholder="NITE o cédula"></div>
-            <div class="col-6"><label>Seguro CCSS (voluntario/independiente) – opcional</label><input id="ccssIndep" placeholder="Número / estado"></div>
+            <div class="col-6">
+              <label for="actividad">Actividad económica</label>
+              <input id="actividad" data-req="independiente" placeholder="Ej. consultoría, comercio, etc.">
+            </div>
+            <div class="col-3">
+              <label for="regimen">Régimen tributario</label>
+              <select id="regimen" data-req="independiente">
+                <option>Simplificado</option>
+                <option>Tradicional</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <label for="tiempoActividad">Tiempo en la actividad (meses)</label>
+              <input id="tiempoActividad" data-req="independiente" type="number" min="0">
+            </div>
+            <div class="col-6">
+              <label for="nitenum">Número de contribuyente (NITE / cédula)</label>
+              <input id="nitenum" data-req="independiente" placeholder="NITE o cédula">
+            </div>
+            <div class="col-6">
+              <label for="ccssIndep">Seguro CCSS (voluntario/independiente) – opcional</label>
+              <input id="ccssIndep" placeholder="Número / estado">
+            </div>
           </div>
         </div>
 
@@ -119,38 +197,59 @@
         <div id="fs-empresario" class="col-12 fieldset hidden">
           <div class="legend">Dueño de negocio / Empresario</div>
           <div class="grid">
-            <div class="col-6"><label>Nombre de la empresa</label><input id="empresa" data-req="empresario" placeholder="Razón social"></div>
-            <div class="col-3"><label>Cédula jurídica</label><input id="cedulaJuridica" data-req="empresario" placeholder="3-101-XXXXXX"></div>
-            <div class="col-3"><label>Antigüedad de la empresa (meses)</label><input id="antiguedadEmpresa" data-req="empresario" type="number" min="0"></div>
-            <div class="col-6"><label>Facturación mensual (aprox.)</label><input id="facturacion" data-req="empresario" type="number" min="0" placeholder="₡"></div>
-            <div class="col-6"><label>Banco principal</label><input id="bancoEmpresa" data-req="empresario" placeholder="Banco"></div>
+            <div class="col-6">
+              <label for="empresa">Nombre de la empresa</label>
+              <input id="empresa" data-req="empresario" placeholder="Razón social">
+            </div>
+            <div class="col-3">
+              <label for="cedulaJuridica">Cédula jurídica</label>
+              <input id="cedulaJuridica" data-req="empresario" placeholder="3-101-XXXXXX">
+            </div>
+            <div class="col-3">
+              <label for="antiguedadEmpresa">Antigüedad de la empresa (meses)</label>
+              <input id="antiguedadEmpresa" data-req="empresario" type="number" min="0">
+            </div>
+            <div class="col-6">
+              <label for="facturacion">Facturación mensual (aprox.)</label>
+              <input id="facturacion" data-req="empresario" type="number" min="0" placeholder="₡">
+            </div>
+            <div class="col-6">
+              <label for="bancoEmpresa">Banco principal</label>
+              <input id="bancoEmpresa" data-req="empresario" placeholder="Banco">
+            </div>
           </div>
         </div>
 
         <!-- Amount / Term / Bank -->
         <div class="col-12">
-          <label>Monto solicitado (₡300,000 – ₡10,000,000)</label>
+          <label for="montoRange">Monto solicitado (₡300,000 – ₡10,000,000)</label>
           <div class="grid">
             <div class="col-9"><input id="montoRange" type="range" min="300000" max="10000000" step="10000" value="500000"></div>
-            <div class="col-3"><input id="montoInput" type="text" value="₡500,000"></div>
+            <div class="col-3"><input id="montoInput" type="text" value="₡500,000" inputmode="numeric"></div>
           </div>
         </div>
         <div class="col-12">
-          <label>Plazo (6 – 60 meses)</label>
+          <label for="plazoRange">Plazo (6 – 60 meses)</label>
           <div class="grid">
             <div class="col-9"><input id="plazoRange" type="range" min="6" max="60" step="1" value="12"></div>
             <div class="col-3"><input id="plazoInput" type="number" min="6" max="60" step="1" value="12"></div>
           </div>
         </div>
         <div class="col-12">
-          <label>Banco con el que trabajás</label>
+          <label for="banco">Banco con el que trabajás</label>
           <select id="banco" required>
             <option value="">Elegí una opción</option>
-            <option>Banco Nacional de Costa Rica (BNCR)</option><option>Banco de Costa Rica (BCR)</option>
-            <option>Banco Popular y de Desarrollo Comunal</option><option>BAC Credomatic</option>
-            <option>Scotiabank Costa Rica</option><option>Davivienda Costa Rica</option>
-            <option>Banco Promerica</option><option>Banco LAFISE</option>
-            <option>Banco BCT</option><option>Banco Cathay</option><option>Banco Improsa</option>
+            <option>Banco Nacional de Costa Rica (BNCR)</option>
+            <option>Banco de Costa Rica (BCR)</option>
+            <option>Banco Popular y de Desarrollo Comunal</option>
+            <option>BAC Credomatic</option>
+            <option>Scotiabank Costa Rica</option>
+            <option>Davivienda Costa Rica</option>
+            <option>Banco Promerica</option>
+            <option>Banco LAFISE</option>
+            <option>Banco BCT</option>
+            <option>Banco Cathay</option>
+            <option>Banco Improsa</option>
           </select>
         </div>
       </div>
@@ -171,23 +270,23 @@
         <div class="grid">
           <div class="col-6">
             <label>Nombre</label>
-            <div id="pvNombre" class="muted">—</div>
+            <div id="pvNombre" class="muted" aria-live="polite">—</div>
           </div>
           <div class="col-6">
             <label>Teléfono</label>
-            <div id="pvTelefono" class="muted">—</div>
+            <div id="pvTelefono" class="muted" aria-live="polite">—</div>
           </div>
           <div class="col-6">
             <label>Correo</label>
-            <div id="pvEmail" class="muted">—</div>
+            <div id="pvEmail" class="muted" aria-live="polite">—</div>
           </div>
           <div class="col-6">
             <label>Monto solicitado</label>
-            <div id="pvMonto" class="muted">—</div>
+            <div id="pvMonto" class="muted" aria-live="polite">—</div>
           </div>
           <div class="col-6">
             <label>Cuota mensual</label>
-            <div id="pvCuota" class="result">—</div>
+            <div id="pvCuota" class="result" aria-live="polite">—</div>
           </div>
         </div>
       </div>
@@ -208,7 +307,9 @@
         <button class="btn" id="submitBtn" type="button">Enviar solicitud</button>
         <a class="btn wa" style="background:#25D366;text-decoration:none" href="https://wa.me/573244674918" target="_blank" rel="noopener">WhatsApp</a>
       </div>
-      <div id="ok" class="center muted" style="display:none;margin-top:8px;color:#0f7043">✅ Tu solicitud fue enviada. Te escribimos pronto.</div>
+      <div id="ok" class="center muted" style="display:none;margin-top:8px;color:#0f7043">
+        ✅ Tu solicitud fue enviada. Te escribimos pronto.
+      </div>
     </section>
   </div>
 
@@ -216,6 +317,9 @@
   <div id="loadingOverlay" aria-hidden="true" style="display:none"></div>
   <div id="confirmModal" aria-hidden="true" style="display:none"></div>
 
-  <script type="module" src="js/app.js"></script>
+  <!-- just before </body> -->
+  <!-- <script src="js/app.js" defer></script> -->
+   <script type="module" src="js/app.js"></script>
+  <!-- <script type="module" src="js/app.js"></script> -->
 </body>
 </html>

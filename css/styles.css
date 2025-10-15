@@ -469,3 +469,25 @@ footer { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
 .btn.messenger{ background:#0084FF } /* Messenger blue */
 .btn.close{ background:#ddd; color:#123 }
 
+/* Keep hidden sections truly non-interactive */
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Overlays: don't intercept clicks unless explicitly shown */
+#loadingOverlay,
+#confirmModal {
+  pointer-events: none; /* inert when hidden */
+}
+
+#loadingOverlay[style*="display: flex"],
+#confirmModal[style*="display: flex"] {
+  pointer-events: auto; /* clickable only when shown */
+}
+
+/* Just in case: keep action buttons above stray elements */
+.actions .btn {
+  position: relative;
+  z-index: 1;
+}

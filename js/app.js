@@ -90,6 +90,21 @@ onReady(() => {
     return true;
   }
 
+  /* ==== PREVIEW (declare BEFORE any first update) ==== */
+  const pvNombre   = document.getElementById('pvNombre');
+  const pvTelefono = document.getElementById('pvTelefono');
+  const pvEmail    = document.getElementById('pvEmail');
+  const pvMonto    = document.getElementById('pvMonto');
+  const pvCuota    = document.getElementById('pvCuota');
+
+  function updatePreview(){
+    if(pvNombre)   pvNombre.textContent   = (document.getElementById('nombre')?.value || '—');
+    if(pvTelefono) pvTelefono.textContent = (document.getElementById('telefono')?.value || '—');
+    if(pvEmail)    pvEmail.textContent    = (document.getElementById('email')?.value || '—');
+    if(pvMonto)    pvMonto.textContent    = fmtCRC(Number(document.getElementById('montoRange')?.value || 0));
+    if(pvCuota)    pvCuota.textContent    = document.getElementById('cuota')?.textContent || '—';
+  }
+
   /* ==== SLIDERS / CUOTA ==== */
   const montoRange = document.getElementById('montoRange');
   const montoInput = document.getElementById('montoInput');
@@ -125,24 +140,21 @@ onReady(() => {
     montoInput?.addEventListener(ev, updateFromInputs);
     plazoInput?.addEventListener(ev, updateFromInputs);
   });
+
+  // ⬅️ Moved this AFTER preview elements are defined to avoid ReferenceError
   updateFromRange();
 
-  /* ==== PREVIEW ==== */
-  const pvNombre   = document.getElementById('pvNombre');
-  const pvTelefono = document.getElementById('pvTelefono');
-  const pvEmail    = document.getElementById('pvEmail');
-  const pvMonto    = document.getElementById('pvMonto');
-  const pvCuota    = document.getElementById('pvCuota');
+  /* ==== NAV BUTTONS (explicit type=button enforced) ==== */
+  // Prevent ALL form submits (Enter key, default submit buttons)
+  document.querySelectorAll('form').forEach(f=>{
+    f.addEventListener('submit', (e)=> e.preventDefault());
+  });
+  // Enforce type="button" on nav buttons so they never submit
+  ['next1','back2','next2','back3','submitBtn'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el && el.tagName === 'BUTTON') el.setAttribute('type','button');
+  });
 
-  function updatePreview(){
-    if(pvNombre)   pvNombre.textContent   = (document.getElementById('nombre')?.value || '—');
-    if(pvTelefono) pvTelefono.textContent = (document.getElementById('telefono')?.value || '—');
-    if(pvEmail)    pvEmail.textContent    = (document.getElementById('email')?.value || '—');
-    if(pvMonto)    pvMonto.textContent    = fmtCRC(Number(montoRange?.value || 0));
-    if(pvCuota)    pvCuota.textContent    = cuotaEl?.textContent || '—';
-  }
-
-  /* ==== NAV BUTTONS (explicit type=button assumed) ==== */
   document.getElementById('next1')?.addEventListener('click', (e)=>{ e.preventDefault(); if(!validateSection(step1)) return; showStep(1); });
   document.getElementById('back2')?.addEventListener('click', (e)=>{ e.preventDefault(); showStep(0); });
   document.getElementById('next2')?.addEventListener('click', (e)=>{ e.preventDefault(); if(!validateSection(step2)) return; updatePreview(); showStep(2); });
