@@ -141,7 +141,7 @@ onReady(() => {
     plazoInput?.addEventListener(ev, updateFromInputs);
   });
 
-  // ⬅️ Moved this AFTER preview elements are defined to avoid ReferenceError
+  // First sync after preview elements are defined
   updateFromRange();
 
   /* ==== NAV BUTTONS (explicit type=button enforced) ==== */
@@ -160,6 +160,33 @@ onReady(() => {
   document.getElementById('next2')?.addEventListener('click', (e)=>{ e.preventDefault(); if(!validateSection(step2)) return; updatePreview(); showStep(2); });
   document.getElementById('back3')?.addEventListener('click', (e)=>{ e.preventDefault(); showStep(1); });
 
+  /* ==== FORM RESETTER (used after success) ==== */
+  function resetAllFields(){
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        el.checked = false;
+      } else if (typeof el.defaultValue !== 'undefined') {
+        el.value = el.defaultValue;
+      } else {
+        el.value = '';
+      }
+    });
+
+    const estatusEl = document.getElementById('estatus');
+    if (estatusEl) estatusEl.value = 'empleado';
+    if (typeof toggleStatus === 'function') toggleStatus();
+
+    if (typeof updateFromInputs === 'function') updateFromInputs();
+    if (typeof updateFromRange === 'function')  updateFromRange();
+
+    // Clear preview explicitly
+    if (pvNombre)   pvNombre.textContent = '—';
+    if (pvTelefono) pvTelefono.textContent = '—';
+    if (pvEmail)    pvEmail.textContent = '—';
+    if (pvMonto)    pvMonto.textContent = '—';
+    if (pvCuota)    pvCuota.textContent = '—';
+  }
+
   /* ==== OVERLAYS (no CSS dependency) ==== */
   const showLoading = () => {
     if (!loadingOverlay) return;
@@ -167,24 +194,72 @@ onReady(() => {
     loadingOverlay.style.display = 'flex';
   };
   const hideLoading = () => { if (loadingOverlay) loadingOverlay.style.display = 'none'; };
-  const showModal   = (loanId) => {
+
+  /* ==== ENHANCED MODAL (instructions + close-tab) ==== */
+  const showModal = (loanId) => {
     if (!confirmModal) return;
+
+    const waText  = `Hola, mi código de solicitud es ${loanId}. ¿Podemos continuar con el siguiente paso?`;
+    const mailSub = `Mi código de solicitud ${loanId}`;
+    const mailBody= `Hola,%0D%0A%0D%0AMi código de solicitud es ${loanId}.%0D%0AQuisiera continuar con el siguiente paso de mi préstamo.%0D%0A%0D%0AGracias.`;
+
     confirmModal.innerHTML = `
       <div class="modal-card" role="dialog" aria-modal="true">
         <h3 class="modal-title">¡Listo! Recibimos tu solicitud</h3>
-        <p class="modal-text">Tu identificador de solicitud es:</p>
-        <div class="kv"><div class="kv-code">${loanId}</div><button id="copyLoanId" class="btn copy" type="button">Copiar</button></div>
-        <p class="modal-text">Guardá este código. Lo vas a necesitar para consultar el estado o contactar a tu asesor.</p>
+        <p class="modal-text">
+          Este es tu <strong>código de solicitud (Loan ID)</strong>.<br>
+          <strong>Guardalo</strong>: lo vas a usar para consultar tu estado (aprobado o no).
+        </p>
+
+        <div class="kv">
+          <div class="kv-code">${loanId}</div>
+          <button id="copyLoanId" class="btn copy" type="button">Copiar</button>
+        </div>
+
+        <p class="modal-text">Enviá este código a tu agente para continuar:</p>
+
         <div class="modal-actions">
-          <a class="btn wa" id="waLink" href="https://wa.me/573244674918?text=${encodeURIComponent('Hola, mi código de solicitud es ' + loanId)}" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="btn messenger" id="msLink" href="https://m.me/?ref=${encodeURIComponent(loanId)}" target="_blank" rel="noopener">Messenger</a>
+          <a class="btn wa" id="waLink"
+             href="https://wa.me/573244674918?text=${encodeURIComponent(waText)}"
+             target="_blank" rel="noopener">WhatsApp</a>
+
+          <a class="btn messenger" id="msLink"
+             href="https://m.me/?ref=${encodeURIComponent(loanId)}"
+             target="_blank" rel="noopener">Messenger</a>
+
+          <a class="btn ghost" id="emailLink"
+             href="mailto:support@instant-prestamos.online?subject=${encodeURIComponent(mailSub)}&body=${mailBody}">
+             Enviar por Email
+          </a>
+
           <button id="closeModal" class="btn close" type="button">Cerrar</button>
         </div>
-      </div>`;
+
+        <p class="modal-text" style="margin-top:10px">
+          Por tu seguridad, <strong>no compartas</strong> tu código públicamente.
+        </p>
+      </div>
+    `;
+
     confirmModal.style.display = 'flex';
-    document.getElementById('closeModal')?.addEventListener('click', ()=> confirmModal.style.display = 'none');
+
     document.getElementById('copyLoanId')?.addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(loanId); const b = document.getElementById('copyLoanId'); if (b){ b.textContent='Copiado ✓'; setTimeout(()=>b.textContent='Copiar',1500);} }catch(e){}
+      try {
+        await navigator.clipboard.writeText(loanId);
+        const b = document.getElementById('copyLoanId');
+        if (b){ b.textContent='Copiado ✓'; setTimeout(()=>b.textContent='Copiar',1500); }
+      } catch(e){}
+    });
+
+    document.getElementById('closeModal')?.addEventListener('click', ()=>{
+      // Hide modal and try to close the tab
+      confirmModal.style.display = 'none';
+      try {
+        window.open('', '_self');
+        window.close();
+      } catch (e) {}
+      // Fallback message if blocked
+      setTimeout(()=>{ alert('Podés cerrar esta pestaña ahora. ¡Gracias!'); }, 50);
     });
   };
 
@@ -209,7 +284,10 @@ onReady(() => {
   document.getElementById('submitBtn')?.addEventListener('click', async (e)=>{
     e.preventDefault();
     const consent = document.getElementById('consent');
-    if (consent && !consent.checked){ alert('Debés autorizar la verificación de datos.'); return; }
+    if (consent && !consent.checked){
+      alert('Debés autorizar la verificación de datos.');
+      return;
+    }
 
     const payload = {
       nombre:  document.getElementById('nombre')?.value.trim() || "",
@@ -259,14 +337,24 @@ onReady(() => {
       const ref = doc(collection(db, 'applications'), loanId);
       await setDoc(ref, payload);
 
+      // Simulate a short processing wait for UX
       await sleep(4500);
       hideLoading();
+
+      // Show modal + clear the form
       showModal(loanId);
+      resetAllFields();
+
+      // Optional: return UI to step 1 if they stay
+      showStep(0);
+
       try{ localStorage.setItem('instant_loan_id', loanId); }catch(e){}
     }catch(err){
       console.error('Submit error:', err);
       hideLoading();
-      alert('Ocurrió un problema al enviar tu solicitud. Por favor, intentá de nuevo.');
+      const code = err?.code || 'unknown';
+      const msg  = err?.message || String(err);
+      alert(`Error al enviar: ${code}\n${msg}\n\nTips:\n- Reglas de Firestore (allow create en /applications)\n- firebaseConfig.projectId correcto\n- Firestore habilitado`);
     }
   });
 
