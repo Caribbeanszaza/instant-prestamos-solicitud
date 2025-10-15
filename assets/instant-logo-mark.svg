@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Instant Préstamos mark">
+  <rect width="100%" height="100%" fill="none"/>
+  <g transform="translate(16,16)" fill="#0F7043">
+    <path d="M72 176
+             C40 168, 20 150, 10 128
+             C2 110, 0 92, 2 80
+             C24 104, 58 120, 104 128
+             C82 112, 64 96, 56 82
+             C98 94, 140 116, 152 140
+             C160 156, 152 172, 130 176
+             Z" />
+    <path d="M184 184
+             a64 64 0 1 1 0 -128
+             a64 64 0 1 1 0 128
+             M184 164
+             a46 46 0 1 0 0 -92
+             a46 46 0 1 0 0 92" fill-rule="evenodd"/>
+    <rect x="176" y="56" width="16" height="120" rx="8" />
+  </g>
+</svg>

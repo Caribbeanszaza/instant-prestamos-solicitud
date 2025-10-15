@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es-CR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solicitud – Instant Préstamos</title>
+  <link rel="icon" type="image/svg+xml" href="assets/instant-logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Full-bleed hero placed outside the centered wrap -->
+  <header role="banner" class="v3-hero">
+    <div class="v3-inner">
+      <div class="v3-top">
+        <div class="v3-logo">
+          <img src="assets/instant-logo.svg" alt="Instant Préstamos">
+        </div>
+        <a class="btn v3-cta" href="https://wa.me/573244674918" target="_blank" rel="noopener">
+          Hablar por WhatsApp
+        </a>
+      </div>
+
+      <div class="pills v3-pills">
+        <span class="pill">Aprobación ágil</span>
+        <span class="pill">Transparencia total</span>
+        <span class="pill">Soporte en vivo</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <h1 class="title">Solicitud de préstamo</h1>
+    <div class="stepper">
+      <span class="step step-1 is-active">1 de 3 · Datos personales</span> <span class="dot"></span>
+      <span class="step step-2">Situación laboral y financiera</span> <span class="dot"></span>
+      <span class="step step-3">Verificación y confirma</span>
+    </div>
+
+    <!-- STEP 1 -->
+    <section id="step1" class="card">
+      <div class="grid">
+        <div class="col-6"><label>Nombre completo</label><input id="nombre" required placeholder="Tu nombre"></div>
+        <div class="col-6"><label>Cédula</label><input id="cedula" required placeholder="1-2345-6789"></div>
+        <div class="col-6"><label>Fecha de nacimiento</label><input id="dob" required type="date" max="2007-12-31"></div>
+        <div class="col-6"><label>Teléfono</label><input id="telefono" required type="tel" placeholder="+506 ..."></div>
+        <div class="col-6"><label>Correo electrónico</label><input id="email" required type="email" placeholder="tu@correo.com"></div>
+        <div class="col-6">
+          <label>Estado civil (opcional)</label>
+          <select id="estadoCivil"><option value="">Elegí una opción</option><option>Soltero(a)</option><option>Casado(a)</option><option>Unión libre</option><option>Divorciado(a)</option></select>
+        </div>
+        <div class="col-12">
+          <label>Dirección (opcional)</label>
+          <div class="grid">
+            <div class="col-4"><input id="provincia" placeholder="Provincia"></div>
+            <div class="col-4"><input id="canton" placeholder="Cantón"></div>
+            <div class="col-4"><input id="distrito" placeholder="Distrito"></div>
+          </div>
+        </div>
+      </div>
+      <div class="actions"><button class="btn" id="next1" type="button">Siguiente</button></div>
+    </section>
+
+    <!-- STEP 2 -->
+    <section id="step2" class="card hidden">
+      <div class="grid">
+        <!-- Common -->
+        <div class="col-6">
+          <label>Tu condición laboral</label>
+          <select id="estatus" required>
+            <option value="empleado">Empleado(a)</option>
+            <option value="pensionado">Pensionado(a)</option>
+            <option value="independiente">Trabajador(a) independiente</option>
+            <option value="empresario">Dueño(a) de negocio / Empresario(a)</option>
+          </select>
+        </div>
+        <div class="col-6">
+          <label>Ingresos mensuales (aprox.)</label>
+          <input id="ingresos" type="number" min="0" required placeholder="₡">
+        </div>
+
+        <!-- Empleado -->
+        <div id="fs-empleado" class="col-12 fieldset">
+          <div class="legend">Empleado</div>
+          <div class="grid">
+            <div class="col-6"><label>Empleador / Empresa</label><input id="empleador" data-req="empleado" placeholder="Nombre de la empresa"></div>
+            <div class="col-3"><label>Antigüedad (meses)</label><input id="antiguedad" data-req="empleado" type="number" min="0" placeholder="Meses"></div>
+            <div class="col-3"><label>Tipo de contrato</label><select id="tipoContrato" data-req="empleado"><option>Indefinido</option><option>Plazo fijo</option><option>Servicios profesionales</option></select></div>
+            <div class="col-6"><label>Banco donde recibís salario</label><input id="bancoSalario" data-req="empleado" placeholder="Nombre del banco"></div>
+            <div class="col-6"><label>Número de asegurado CCSS (opcional)</label><input id="ccss" placeholder="XXXX-XXXX-XX"></div>
+          </div>
+        </div>
+
+        <!-- Pensionado -->
+        <div id="fs-pensionado" class="col-12 fieldset hidden">
+          <div class="legend">Pensionado</div>
+          <div class="grid">
+            <div class="col-6"><label>Entidad que paga la pensión</label><select id="entidadPension" data-req="pensionado"><option>CCSS / IVM</option><option>JUPEMA / Magisterio</option><option>Operadora ROP</option><option>JPS u otra</option></select></div>
+            <div class="col-3"><label>Tipo de pensión</label><select id="tipoPension" data-req="pensionado"><option>Vejez</option><option>Invalidez</option><option>Sobrevivencia</option></select></div>
+            <div class="col-3"><label>Banco de depósito</label><input id="bancoPension" data-req="pensionado" placeholder="Banco"></div>
+          </div>
+        </div>
+
+        <!-- Independiente -->
+        <div id="fs-independiente" class="col-12 fieldset hidden">
+          <div class="legend">Trabajador independiente</div>
+          <div class="grid">
+            <div class="col-6"><label>Actividad económica</label><input id="actividad" data-req="independiente" placeholder="Ej. consultoría, comercio, etc."></div>
+            <div class="col-3"><label>Régimen tributario</label><select id="regimen" data-req="independiente"><option>Simplificado</option><option>Tradicional</option></select></div>
+            <div class="col-3"><label>Tiempo en la actividad (meses)</label><input id="tiempoActividad" data-req="independiente" type="number" min="0"></div>
+            <div class="col-6"><label>Número de contribuyente (NITE / cédula)</label><input id="nitenum" data-req="independiente" placeholder="NITE o cédula"></div>
+            <div class="col-6"><label>Seguro CCSS (voluntario/independiente) – opcional</label><input id="ccssIndep" placeholder="Número / estado"></div>
+          </div>
+        </div>
+
+        <!-- Empresario -->
+        <div id="fs-empresario" class="col-12 fieldset hidden">
+          <div class="legend">Dueño de negocio / Empresario</div>
+          <div class="grid">
+            <div class="col-6"><label>Nombre de la empresa</label><input id="empresa" data-req="empresario" placeholder="Razón social"></div>
+            <div class="col-3"><label>Cédula jurídica</label><input id="cedulaJuridica" data-req="empresario" placeholder="3-101-XXXXXX"></div>
+            <div class="col-3"><label>Antigüedad de la empresa (meses)</label><input id="antiguedadEmpresa" data-req="empresario" type="number" min="0"></div>
+            <div class="col-6"><label>Facturación mensual (aprox.)</label><input id="facturacion" data-req="empresario" type="number" min="0" placeholder="₡"></div>
+            <div class="col-6"><label>Banco principal</label><input id="bancoEmpresa" data-req="empresario" placeholder="Banco"></div>
+          </div>
+        </div>
+
+        <!-- Amount / Term / Bank -->
+        <div class="col-12">
+          <label>Monto solicitado (₡300,000 – ₡10,000,000)</label>
+          <div class="grid">
+            <div class="col-9"><input id="montoRange" type="range" min="300000" max="10000000" step="10000" value="500000"></div>
+            <div class="col-3"><input id="montoInput" type="text" value="₡500,000"></div>
+          </div>
+        </div>
+        <div class="col-12">
+          <label>Plazo (6 – 60 meses)</label>
+          <div class="grid">
+            <div class="col-9"><input id="plazoRange" type="range" min="6" max="60" step="1" value="12"></div>
+            <div class="col-3"><input id="plazoInput" type="number" min="6" max="60" step="1" value="12"></div>
+          </div>
+        </div>
+        <div class="col-12">
+          <label>Banco con el que trabajás</label>
+          <select id="banco" required>
+            <option value="">Elegí una opción</option>
+            <option>Banco Nacional de Costa Rica (BNCR)</option><option>Banco de Costa Rica (BCR)</option>
+            <option>Banco Popular y de Desarrollo Comunal</option><option>BAC Credomatic</option>
+            <option>Scotiabank Costa Rica</option><option>Davivienda Costa Rica</option>
+            <option>Banco Promerica</option><option>Banco LAFISE</option>
+            <option>Banco BCT</option><option>Banco Cathay</option><option>Banco Improsa</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn ghost" id="back2" type="button">Anterior</button>
+        <button class="btn" id="next2" type="button">Siguiente</button>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section id="step3" class="card hidden">
+      <h3 class="center" style="margin-top:0">Verificación y confirmación</h3>
+
+      <!-- Preview summary -->
+      <div id="preview" class="fieldset" style="margin-bottom:12px">
+        <div class="legend">Resumen</div>
+        <div class="grid">
+          <div class="col-6">
+            <label>Nombre</label>
+            <div id="pvNombre" class="muted">—</div>
+          </div>
+          <div class="col-6">
+            <label>Teléfono</label>
+            <div id="pvTelefono" class="muted">—</div>
+          </div>
+          <div class="col-6">
+            <label>Correo</label>
+            <div id="pvEmail" class="muted">—</div>
+          </div>
+          <div class="col-6">
+            <label>Monto solicitado</label>
+            <div id="pvMonto" class="muted">—</div>
+          </div>
+          <div class="col-6">
+            <label>Cuota mensual</label>
+            <div id="pvCuota" class="result">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc">
+        <div class="muted">Tasa fija referencial: 8% anual (0.6667% mensual). Cálculo estimado.</div>
+        <div>Cuota mensual estimada: <span id="cuota" class="result">₡43,494</span></div>
+      </div>
+
+      <div class="muted" style="margin:12px 0">
+        <label style="display:flex; align-items:center; gap:8px">
+          <input type="checkbox" id="consent"> Autorizo la verificación de mis datos y consulta crediticia
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn ghost" id="back3" type="button">Anterior</button>
+        <button class="btn" id="submitBtn" type="button">Enviar solicitud</button>
+        <a class="btn wa" style="background:#25D366;text-decoration:none" href="https://wa.me/573244674918" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <div id="ok" class="center muted" style="display:none;margin-top:8px;color:#0f7043">✅ Tu solicitud fue enviada. Te escribimos pronto.</div>
+    </section>
+  </div>
+
+  <!-- Overlays (empty; JS fills; start hidden) -->
+  <div id="loadingOverlay" aria-hidden="true" style="display:none"></div>
+  <div id="confirmModal" aria-hidden="true" style="display:none"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
